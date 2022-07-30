@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <style>
+
+    /*assign full width inputs*/
+    input[type=text],
+    input[type=password],
+    input[type=number]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /*set a style for the buttons*/
+    button {
+        background-color: #4c7aaf;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    /* set a hover effect for the button*/
+    button:hover {
+        opacity: 0.8;
+    }
+
+    /*set extra style for the cancel button*/
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+
+    /*centre the display image inside the container*/
+    .imgcontainer {
+        text-align: center;
+        margin-top: 40px;
+        position: relative;
+
+    }
+
+    /*set image properties*/
+    img.avatar {
+        width: 50%;
+        box-shadow: 0 0 8px 8px #050039 inset;
+    }
+
+    /*set padding to the container*/
+    .container {
+        padding: 16px;
+    }
+
+    /*set the forgot password text*/
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /*set the Modal background*/
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+    }
+
+    /*style the model content box*/
+    .modal-content {
+        background-color: #f4f6fc;
+        margin: 5% auto 15% auto;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /*style the close button*/
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        cursor: pointer;
+    }
+
+    /* add zoom animation*/
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+        from {
+            -webkit-transform: scale(0)
+        }
+        to {
+            -webkit-transform: scale(1)
+        }
+    }
+
+    @keyframes animatezoom {
+        from {
+            transform: scale(0)
+        }
+        to {
+            transform: scale(1)
+        }
+    }
+
+    @media screen and (max-width: 300px) {
+        span.psw {
+            display: block;
+            float: none;
+        }
+        .cancelbtn {
+            width: 100%;
+        }
+    }
+
+    body {
+      background-color: #050039;
+    }
+
+    .sine-nomine {
+      color:rgb(255, 255, 255);
+    }
+    .sine-nomine2 {
+      color:rgb(206, 206, 206);
+      margin-top: 100px;
+    }
+    .display-7 {
+        font-family: 'lato';
+        font: italic;
+    }
+    .display-8{
+        font-family: 'josefin sans';
+        font: italic;
+        }
+    .size1 {
+        height: 700px;
+    }
+    .login {
+        width: 500px;
+    }
+    .img-login{
+        width: 500px;
+    }
+    .login-image {
+      width: 75%;
+        box-shadow: 0 0 8px 8px #050039 inset;
+    }
+  </style>
+
+  <body class="animation">
+    <div class="container text-center size1">
+      <div class="imgcontainer">
+        <img
+          src="../../assets/img/Sine-dark4.png"
+          alt="Avatar"
+          class="avatar mb-1 mt-5 img-login"
+        />
+      </div>
+      <h1 class="display-8 sine-nomine2">
+        Login to the World of
+        <span class="display-7 sine-nomine">Sine Nomine</span>
+      </h1>
+      <!--Step 1 : Adding HTML-->
+      <button
+        onclick="document.getElementById('id01').style.display='block'"
+        style="width:auto;"
+      >
+        Login
+      </button>
+
+      <button
+        onclick="document.getElementById('id02').style.display='block'"
+        style="width:auto;"
+      >
+        Sign Up
+      </button>
+    </div>
+
+    <div id="id01" class="modal">
+      <form
+        (ngSubmit)="onSubmit(myLoginForm)"
+        #myLoginForm="ngForm"
+        class="modal-content animate login"
+        action="/action_page.php"
+      >
+        <div>
+          <span
+            onclick="document.getElementById('id01').style.display='none'"
+            class="close"
+            title="Close Modal"
+            (click)="onClose(myLoginForm)"
+            >&times;</span
+          >
+        </div>
+        <div class="imgcontainer">
+          <!-- <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span> -->
+          <img
+            src="../../assets/img/Sine-light3.png"
+            alt="Avatar"
+            class="login-image"
+          />
+        </div>
+
+        <div
+          class="container"
+          ngModelGroup="myLoginFormGroup"
+          #myLoginFormGroup="ngModelGroup"
+        >
+          <label><b>Username</b></label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            name="uname"
+            required
+            minlength="3"
+            ngModel
+            #userName="ngModel"
+          />
+          <small class="text-danger" *ngIf="!userName.valid && userName.touched"
+            >Please Enter User Name</small
+          >
+          <br />
+          <label><b>Password</b></label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="psw"
+            required
+            ngModel
+            minLength="6"
+            #pswd="ngModel"
+          />
+          <small class="text-danger" *ngIf="!pswd.valid && pswd.touched"
+            >Please Enter a valid Password</small
+          >
+
+          <button
+            type="submit"
+            [disabled]="!myLoginForm.valid"
+            routerLink="/home"
+          >
+            Login
+          </button>
+          <div class="text-center">or</div>
+          <button
+            onclick="document.getElementById('id02').style.display='block', document.getElementById('id01').style.display='none'"
+          >
+            Create Account
+          </button>
+        </div>
+
+        <div class="container rounded" style="background-color:#f1f1f1">
+          <button
+            type="button"
+            onclick="document.getElementById('id01').style.display='none'"
+            (click)="onClose(myLoginForm)"
+            class="cancelbtn"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="id02" class="modal">
+      <form
+        [formGroup]="myRecForm"
+        (ngSubmit)="onRecSubmit()"
+        class="modal-content animate login"
+        action="/action_page.php"
+      >
+        <div>
+          <span
+            onclick="document.getElementById('id02').style.display='none'"
+            class="close"
+            title="Close Modal"
+            (click)="onRecClose()"
+            >&times;</span
+          >
+        </div>
+        <div class="imgcontainer">
+          <img
+            src="../../assets/img/Sine-light3.png"
+            alt="Avatar"
+            class="login-image"
+          />
+        </div>
+
+        <div class="container">
+          <div>
+            <label><b>First Name</b></label>
+            <input
+              type="text"
+              placeholder="Enter First Name"
+              name="fname"
+              formControlName="fname"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                !myRecForm.get('fname').valid && myRecForm.get('fname').touched
+              "
+              >Please enter a valid first name.</small
+            >
+          </div>
+
+          <div>
+            <label><b>Last Name</b></label>
+            <input
+              type="text"
+              placeholder="Enter Last Name"
+              name="lname"
+              formControlName="lname"
+            />
+          </div>
+
+          <div>
+            <label><b>Contact Number</b></label>
+            <input
+              type="number"
+              placeholder="Enter Contact Number"
+              name="mobileNumber"
+              formControlName="contact"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                !myRecForm.get('contact').valid &&
+                myRecForm.get('contact').touched
+              "
+              >Contact Number Invalid</small
+            >
+          </div>
+
+          <div>
+            <label><b>Password</b></label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              name="pswd"
+              formControlName="pswd"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                !myRecForm.get('pswd').valid && myRecForm.get('pswd').touched
+              "
+              >Please enter a valid Password</small
+            >
+          </div>
+
+          <div>
+            <label><b>Confirm Password</b></label>
+            <input
+              type="password"
+              placeholder="Re-Enter Password"
+              name="cnfpswd"
+              formControlName="cnfpswd"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                !myRecForm.get('cnfpswd').valid &&
+                myRecForm.get('cnfpswd').touched &&
+                myRecForm.get('pswd').value != myRecForm.get('cnfpswd').value
+              "
+              >Please re-enter your Password</small
+            >
+            <small
+              class="text-success"
+              *ngIf="
+                myRecForm.get('pswd').value == myRecForm.get('cnfpswd').value &&
+                myRecForm.get('cnfpswd').touched
+              "
+              >Password matched!</small
+            >
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              routerLink="/home"
+              [disabled]="!myRecForm.valid"
+            >
+              Create Account
+            </button>
+          </div>
+          <div class="text-center">or</div>
+          <button
+            onclick="document.getElementById('id01').style.display='block', document.getElementById('id02').style.display='none'"
+          >
+            Login
+          </button>
+        </div>
+
+        <div class="container rounded" style="background-color:#f1f1f1">
+          <button
+            type="button"
+            onclick="document.getElementById('id02').style.display='none'"
+            class="cancelbtn"
+            (click)="onRecClose()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      var modal = document.getElementById('id01');
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+
+      var modal = document.getElementById('id02');
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+    </script>
+  </body>
+</html>
